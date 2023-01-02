@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import { getData } from "./utils/getData";
 import BookItem from "./components/container/BokkItem/BookItem";
 import { bookModel } from "./models/bookModel";
-import FilterCompenent from "./components/container/FilterCompenent";
+import FilterCompenent from "./components/container/FilterCompenent/index";
 import { Pagination, Divider } from "antd";
+import CustomButton from "./components/common/CustomButton";
+import { Theme } from "./Themes/books.theme";
+import { Input, Space } from "antd";
+
+const { Search } = Input;
 
 const PAGE_SIZE = 5;
 
@@ -51,8 +56,26 @@ const App = () => {
     console.log(filtertype);
   };
 
+  const onSearch = (value: string) => console.log(value);
+
   return (
     <div className="book-content">
+      <div className="flex justify-center gap-[20px] mb-[20px]">
+        <Search
+          placeholder="Search Box"
+          size="middle"
+          onSearch={onSearch}
+          enterButton
+          className="w-[300px]"
+        />
+        <CustomButton
+          handleClick={() => console.log("click")}
+          type={Theme.button.primary}
+          content="Add Book"
+          classType="w-[100px]"
+        ></CustomButton>
+      </div>
+
       <FilterCompenent
         bookLeng={data.length}
         changeFilter={(value: string) => onChangeFilter(value)}

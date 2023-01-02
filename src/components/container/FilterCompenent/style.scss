@@ -3,12 +3,13 @@
     @apply flex gap-[20px];
     &-item {
       @apply px-3;
+      font-size: 12px;
       cursor: pointer;
     }
     &-active {
-      background-color: #090986;
+      background-color: #3644d9;
       color: white;
-      @apply rounded-md;
+      border-radius: 20px;
     }
   }
 }
