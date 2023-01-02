@@ -6,7 +6,8 @@ import FilterCompenent from "./components/container/FilterCompenent/index";
 import { Pagination, Divider } from "antd";
 import CustomButton from "./components/common/CustomButton";
 import { Theme } from "./Themes/books.theme";
-import { Input, Space } from "antd";
+import { Input } from "antd";
+import Modal from "./components/common/Modal/index";
 
 const { Search } = Input;
 
@@ -18,7 +19,8 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(1);
   const [total, setTotal] = useState(5);
-  const [filtertype, setTFiltertype] = useState("");
+  const [filtertype, setTFiltertype] = useState("author");
+  const [showModal, setTShowModal] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -30,7 +32,7 @@ const App = () => {
 
   useEffect(() => {
     setTFiltertype((value) => value);
-  }, [filtertype]);
+  }, [filtertype, data]);
 
   const fetchData = async () => {
     try {
@@ -51,12 +53,36 @@ const App = () => {
   };
 
   const onChangeFilter = (value: string) => {
-    console.log(value);
     setTFiltertype(value);
-    console.log(filtertype);
   };
 
-  const onSearch = (value: string) => console.log(value);
+  const onSearch = (value: string) => {
+    console.log(filtertype, value);
+    if (value != "") {
+      if (filtertype == "author") {
+        console.log("value");
+        let author = data.filter((item: bookModel) =>
+          item.author.includes(value)
+        );
+        setDataPagination(author);
+      } else {
+        let gender = data.filter((item: bookModel) =>
+          item.author.includes(value)
+        );
+        setDataPagination(gender);
+      }
+    } else {
+      setPagination(1);
+    }
+  };
+
+  const handleModalOk = () => {
+    setTShowModal(false);
+  };
+
+  const handleModalCancel = () => {
+    setTShowModal(false);
+  };
 
   return (
     <div className="book-content">
@@ -65,11 +91,22 @@ const App = () => {
           placeholder="Search Box"
           size="middle"
           onSearch={onSearch}
+          onChange={(event) => onSearch(event.target.value)}
           enterButton
           className="w-[300px]"
         />
+        <Modal
+          isShowModal={showModal}
+          handleOk={() => handleModalOk()}
+          handleCancel={() => handleModalCancel()}
+        >
+          <p>marion</p>
+        </Modal>
         <CustomButton
-          handleClick={() => console.log("click")}
+          handleClick={() => {
+            setTShowModal(true);
+            console.log(showModal);
+          }}
           type={Theme.button.primary}
           content="Add Book"
           classType="w-[100px]"
@@ -87,7 +124,7 @@ const App = () => {
         <p>...Loading</p>
       ) : (
         <div className="grid grid-cols-2 gap-[20px]">
-          {data.length ? (
+          {dataPagination.length ? (
             dataPagination.map((dataItem: bookModel) => (
               <a href={dataItem.link} target="_blank">
                 <BookItem data={dataItem} />

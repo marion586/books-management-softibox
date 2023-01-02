@@ -44,7 +44,7 @@ const ButtonCustom: FC<ButtonProps> = ({
         icon={icon}
         style={{ ...type, fontSize: fontSize }}
         size={size}
-        onClick={() => handleClick}
+        onClick={() => handleClick()}
         className={classType}
       >
         {content}
