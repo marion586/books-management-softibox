@@ -1,0 +1,14 @@
+.book-item {
+  &__wrapper {
+    @apply border border-solid rounded-md p-5 gap-[30px];
+  }
+  &__image {
+    height: 200px;
+    img {
+      height: 100%;
+    }
+  }
+  &__btn-group {
+    @apply flex gap-[30px] mt-[50px];
+  }
+}

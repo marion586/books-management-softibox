@@ -1,0 +1,14 @@
+.list {
+  &__group {
+    @apply flex gap-[20px];
+    &-item {
+      @apply px-3;
+      cursor: pointer;
+    }
+    &-active {
+      background-color: #090986;
+      color: white;
+      @apply rounded-md;
+    }
+  }
+}
