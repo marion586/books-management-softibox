@@ -55,7 +55,7 @@ const App = () => {
     <div className="book-content">
       <FilterCompenent
         bookLeng={data.length}
-        changeFilter={(value) => onChangeFilter(value)}
+        changeFilter={(value: string) => onChangeFilter(value)}
       />
 
       <Divider />
