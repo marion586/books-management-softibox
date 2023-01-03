@@ -9,6 +9,8 @@ import { Theme } from "./Themes/books.theme";
 import { Input, message } from "antd";
 import Modal from "./components/common/Modal/index";
 import AddForm from "./components/container/AddForm";
+import PopConfirm from "./components/common/PopConfirm";
+import SearchAuto from "./components/common/InputAutoComplete";
 
 const { Search } = Input;
 
@@ -22,16 +24,19 @@ const App = () => {
   const [total, setTotal] = useState(5);
   const [filtertype, setTFiltertype] = useState("author");
   const [showModal, setTShowModal] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
   const [addData, setAddData] = useState({
     title: "",
     author: "",
-    year: "",
+    year: null,
     imageLink: "",
     pages: "",
     link: "",
     langage: "English",
     country: "default",
   });
+
+  const [edit, setEdit] = useState<bookModel | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -97,48 +102,82 @@ const App = () => {
     }
   };
 
-  const handleModalOk = () => {
+  const handleModalOk = async () => {
+    if (edit == null) {
+      let newData = [addData, ...data];
+      setData(newData);
+      message.success(`book Added successfully`);
+      setAddData({
+        title: "",
+        author: "",
+        year: null,
+        imageLink: "",
+        pages: "",
+        link: "",
+        langage: "English",
+        country: "default",
+      });
+    } else {
+      let editedData = await data.map((item: bookModel) =>
+        item.title == editTitle ? edit : item
+      );
+      message.success(`book edited successfully`);
+      setData(editedData);
+      setEdit(null);
+      setEditTitle("");
+    }
+
     setTShowModal(false);
-    let newData = [addData, ...data];
-    setData(newData);
-    message.success(`book Added successfully`);
-    setAddData({
-      title: "",
-      author: "",
-      year: "",
-      imageLink: "",
-      pages: "",
-      link: "",
-      langage: "English",
-      country: "default",
-    });
   };
 
   const handleModalCancel = () => {
     setTShowModal(false);
+    setEdit(null);
   };
 
   const changeData = (data: any) => {
-    setAddData((prev) => ({ ...prev, [data.target.name]: data.target.value }));
+    if (edit == null) {
+      setAddData((prev) => ({
+        ...prev,
+        [data.target.name]: data.target.value,
+      }));
+    } else {
+      setEdit({ ...edit, [data.target.name]: data.target.value });
+    }
   };
 
   const changeDate = (d: any) => {
-    setAddData((prev) => ({ ...prev, year: d.dateString }));
+    if (edit == null) {
+      setAddData((prev) => ({ ...prev, year: d.dateString }));
+    } else {
+      setEdit({ ...edit, year: d.dateString });
+    }
   };
 
   const changeFile = (file: string) => {
-    console.log(file);
-    setAddData((prev) => ({ ...prev, imageLink: `images/${file}` }));
+    if (edit == null) {
+      setAddData((prev) => ({ ...prev, imageLink: `images/${file}` }));
+    } else {
+      setEdit({ ...edit, imageLink: `images/${file}` });
+    }
   };
 
-  const deleteItem = (id: number) => {
-    let newData = data.filter((item: bookModel, index: number) => index != id);
+  const deleteItem = (title: string) => {
+    let newData = data.filter(
+      (item: bookModel, index: number) => item.title != title
+    );
     message.success(`book deleted`);
     setData(newData);
+  };
+  const editModal = (edit: bookModel) => {
+    setEdit(edit);
+    setEditTitle(edit.title);
+    setTShowModal(true);
   };
   return (
     <div className="book-content">
       <div className="flex justify-center gap-[20px] mb-[20px]">
+        <SearchAuto data={data} filterType={filtertype} />
         <Search
           placeholder="Search Box"
           size="middle"
@@ -151,10 +190,11 @@ const App = () => {
           isShowModal={showModal}
           handleOk={() => handleModalOk()}
           handleCancel={() => handleModalCancel()}
+          title={edit ? "Edit Data" : "Add data"}
         >
           <AddForm
             changeValue={(data) => changeData(data)}
-            addData={addData}
+            addData={edit ? edit : addData}
             changeDate={changeDate}
             changeFile={changeFile}
           />
@@ -162,12 +202,11 @@ const App = () => {
         <CustomButton
           handleClick={() => {
             setTShowModal(true);
-            console.log(showModal);
           }}
           type={Theme.button.primary}
           content="Add Book"
           classType="w-[100px]"
-        ></CustomButton>
+        />
       </div>
 
       <FilterCompenent
@@ -183,22 +222,21 @@ const App = () => {
         <div className="grid grid-cols-2 gap-[20px]">
           {dataPagination.length ? (
             dataPagination.map((dataItem: bookModel, id) => (
-              <BookItem data={dataItem}>
+              <BookItem data={dataItem} key={dataItem.title}>
                 <CustomButton
-                  handleClick={() => {
-                    setTShowModal(true);
-                    console.log(showModal);
-                  }}
+                  handleClick={() => editModal(dataItem)}
                   type={Theme.button.primary}
                   content="Edit Book"
                   classType="w-[100px]"
                 ></CustomButton>
-                <CustomButton
-                  handleClick={() => deleteItem(id)}
-                  type={Theme.button.danger}
-                  content="Delete Book"
-                  classType="w-[100px]"
-                ></CustomButton>
+                <PopConfirm deleteItem={() => deleteItem(dataItem.title)}>
+                  <CustomButton
+                    handleClick={() => console.log(id)}
+                    type={Theme.button.danger}
+                    content="Delete Book"
+                    classType="w-[100px]"
+                  ></CustomButton>
+                </PopConfirm>
               </BookItem>
             ))
           ) : (

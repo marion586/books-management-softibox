@@ -23,16 +23,18 @@ const BookItem: FC<bookProps> = ({ data, children }) => {
 
       <Col>
         <Heading title={data.title} level={5} />
-        <span>{data.author}</span>
+        <span className="book-item__content">{data.author}</span>
 
         <Row>
           <Col>
-            <span className="">Page</span> <span>{data.pages}</span> <br />
-            <span className="">Year</span> <span>{data.year}</span> <br />
+            <span className="book-item__content">Page: </span>{" "}
+            <span className="book-item__value">{data.pages}</span> <br />
+            <span className="book-item__content">Year: </span>{" "}
+            <span className="book-item__value">{data.year}</span> <br />
           </Col>
         </Row>
 
-        <div className="flex justify-between book-item__btn-group">
+        <div className="flex gap-[10px] justify-center book-item__btn-group">
           {children}
         </div>
       </Col>

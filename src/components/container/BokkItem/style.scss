@@ -11,6 +11,12 @@
       height: 100%;
     }
   }
+  &__content {
+    color: grey;
+  }
+  &__value {
+    font-weight: 600;
+  }
   &__btn-group {
     @apply flex gap-[30px] mt-[50px];
   }

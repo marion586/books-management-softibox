@@ -1,32 +1,28 @@
 import React from "react";
-import { Button, Popconfirm } from "antd";
+import { message, Popconfirm } from "antd";
 
-interface propData {
-  title: string;
-  desctiption: string;
-  deleteItem: () => void;
+const cancel = (e: React.MouseEvent<HTMLElement> | undefined) => {};
+
+interface propType {
   children: React.ReactNode;
+  deleteItem: () => void;
 }
-const App: React.FC<propData> = ({
-  title,
-  desctiption,
-  deleteItem,
-  children,
-}) => {
-  const confirm = () =>
-    new Promise((resolve) => {
-      deleteItem();
-      setTimeout(() => resolve(null), 3000);
-    });
+
+const App: React.FC<propType> = ({ children, deleteItem }) => {
+  const confirm = (e: React.MouseEvent<HTMLElement> | undefined) => {
+    deleteItem();
+  };
 
   return (
     <Popconfirm
-      title={title}
-      description={desctiption}
+      title="Delete the task"
+      description="Are you sure to delete this task?"
       onConfirm={confirm}
-      onOpenChange={() => console.log("open change")}
+      onCancel={cancel}
+      okText="Yes"
+      cancelText="No"
     >
-      {children}
+      <a href="#"> {children} </a>
     </Popconfirm>
   );
 };

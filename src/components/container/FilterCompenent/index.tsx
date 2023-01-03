@@ -24,7 +24,7 @@ const FilterCompenent: FC<propType> = ({ bookLeng, changeFilter }) => {
   const [active, setActive] = useState("");
   return (
     <div className="list flex justify-between">
-      <span>{bookLeng} Books</span>
+      <span className="font-bold">{bookLeng} Books</span>
 
       <div className="flex gap-[50px]">
         <span>Sort By:</span>
@@ -37,8 +37,8 @@ const FilterCompenent: FC<propType> = ({ bookLeng, changeFilter }) => {
 
                 setActive(item.value);
               }}
-              className={`list__group-item ${
-                active == item.value && "list__group-active"
+              className={`list__group-item text-[grey] ${
+                active == item.value && "list__group-active text-white"
               }`}
             >
               {item.label}

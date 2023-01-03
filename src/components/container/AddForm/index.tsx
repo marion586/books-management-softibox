@@ -12,7 +12,7 @@ interface addData {
   addData: {
     title: string;
     author: string;
-    year: string;
+    year: any;
     imageLink: string;
     pages: string;
     link: string;

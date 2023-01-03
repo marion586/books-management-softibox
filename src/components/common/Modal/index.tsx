@@ -8,6 +8,7 @@ interface modalProps {
   isShowModal: boolean;
   handleOk: () => void;
   handleCancel: () => void;
+  title?: string;
 }
 
 const App: React.FC<modalProps> = ({
@@ -15,11 +16,12 @@ const App: React.FC<modalProps> = ({
   isShowModal,
   handleOk,
   handleCancel,
+  title = "Add Data",
 }) => {
   return (
     <>
       <Modal
-        title="Basic Modal"
+        title={title}
         open={isShowModal}
         onOk={() => handleOk()}
         onCancel={() => handleCancel()}
