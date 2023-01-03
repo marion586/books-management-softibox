@@ -130,6 +130,12 @@ const App = () => {
     console.log(file);
     setAddData((prev) => ({ ...prev, imageLink: `images/${file}` }));
   };
+
+  const deleteItem = (id: number) => {
+    let newData = data.filter((item: bookModel, index: number) => index != id);
+    message.success(`book deleted`);
+    setData(newData);
+  };
   return (
     <div className="book-content">
       <div className="flex justify-center gap-[20px] mb-[20px]">
@@ -176,7 +182,7 @@ const App = () => {
       ) : (
         <div className="grid grid-cols-2 gap-[20px]">
           {dataPagination.length ? (
-            dataPagination.map((dataItem: bookModel) => (
+            dataPagination.map((dataItem: bookModel, id) => (
               <BookItem data={dataItem}>
                 <CustomButton
                   handleClick={() => {
@@ -188,10 +194,7 @@ const App = () => {
                   classType="w-[100px]"
                 ></CustomButton>
                 <CustomButton
-                  handleClick={() => {
-                    setTShowModal(true);
-                    console.log(showModal);
-                  }}
+                  handleClick={() => deleteItem(id)}
                   type={Theme.button.danger}
                   content="Delete Book"
                   classType="w-[100px]"
