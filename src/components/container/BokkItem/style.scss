@@ -1,6 +1,9 @@
 .book-item {
   &__wrapper {
-    @apply border border-solid rounded-md p-5 gap-[30px];
+    @apply border border-solid rounded-md p-5 gap-[30px] transition ease-in-out delay-150 cursor-pointer;
+  }
+  &__wrapper:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
   &__image {
     height: 200px;

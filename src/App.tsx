@@ -6,21 +6,32 @@ import FilterCompenent from "./components/container/FilterCompenent/index";
 import { Pagination, Divider } from "antd";
 import CustomButton from "./components/common/CustomButton";
 import { Theme } from "./Themes/books.theme";
-import { Input } from "antd";
+import { Input, message } from "antd";
 import Modal from "./components/common/Modal/index";
+import AddForm from "./components/container/AddForm";
 
 const { Search } = Input;
 
 const PAGE_SIZE = 5;
 
 const App = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [dataPagination, setDataPagination] = useState([]);
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(1);
   const [total, setTotal] = useState(5);
   const [filtertype, setTFiltertype] = useState("author");
   const [showModal, setTShowModal] = useState(false);
+  const [addData, setAddData] = useState({
+    title: "",
+    author: "",
+    year: "",
+    imageLink: "",
+    pages: "",
+    link: "",
+    langage: "English",
+    country: "default",
+  });
 
   useEffect(() => {
     fetchData();
@@ -46,9 +57,18 @@ const App = () => {
   };
 
   const setPagination = (page: number) => {
-    page > 1 && setCurrent(PAGE_SIZE * page - PAGE_SIZE);
-    setTotal((prev) => PAGE_SIZE * page);
-    let tmp = data.filter((item, index) => index >= current && index < total);
+    // page > 1 && setCurrent(PAGE_SIZE * page - PAGE_SIZE);
+    // setTotal((prev) => PAGE_SIZE * page);
+    if (page > 1) {
+      setCurrent(PAGE_SIZE * page - PAGE_SIZE);
+      setTotal((prev) => PAGE_SIZE * page);
+    } else {
+      setCurrent(page);
+      setTotal(PAGE_SIZE);
+    }
+    let tmp = data.filter(
+      (item: bookModel, index: number) => index >= current && index < total
+    );
     setDataPagination(tmp);
   };
 
@@ -57,18 +77,19 @@ const App = () => {
   };
 
   const onSearch = (value: string) => {
-    console.log(filtertype, value);
     if (value != "") {
       if (filtertype == "author") {
-        console.log("value");
+        console.log(value);
         let author = data.filter((item: bookModel) =>
-          item.author.includes(value)
+          item.author.toLocaleLowerCase().includes(value.toLocaleLowerCase())
         );
         setDataPagination(author);
       } else {
+        console.log(value);
         let gender = data.filter((item: bookModel) =>
-          item.author.includes(value)
+          item.title.toLocaleLowerCase().includes(value.toLocaleLowerCase())
         );
+        console.log(gender);
         setDataPagination(gender);
       }
     } else {
@@ -78,12 +99,37 @@ const App = () => {
 
   const handleModalOk = () => {
     setTShowModal(false);
+    let newData = [addData, ...data];
+    setData(newData);
+    message.success(`book Added successfully`);
+    setAddData({
+      title: "",
+      author: "",
+      year: "",
+      imageLink: "",
+      pages: "",
+      link: "",
+      langage: "English",
+      country: "default",
+    });
   };
 
   const handleModalCancel = () => {
     setTShowModal(false);
   };
 
+  const changeData = (data: any) => {
+    setAddData((prev) => ({ ...prev, [data.target.name]: data.target.value }));
+  };
+
+  const changeDate = (d: any) => {
+    setAddData((prev) => ({ ...prev, year: d.dateString }));
+  };
+
+  const changeFile = (file: string) => {
+    console.log(file);
+    setAddData((prev) => ({ ...prev, imageLink: `images/${file}` }));
+  };
   return (
     <div className="book-content">
       <div className="flex justify-center gap-[20px] mb-[20px]">
@@ -100,7 +146,12 @@ const App = () => {
           handleOk={() => handleModalOk()}
           handleCancel={() => handleModalCancel()}
         >
-          <p>marion</p>
+          <AddForm
+            changeValue={(data) => changeData(data)}
+            addData={addData}
+            changeDate={changeDate}
+            changeFile={changeFile}
+          />
         </Modal>
         <CustomButton
           handleClick={() => {
@@ -126,9 +177,26 @@ const App = () => {
         <div className="grid grid-cols-2 gap-[20px]">
           {dataPagination.length ? (
             dataPagination.map((dataItem: bookModel) => (
-              <a href={dataItem.link} target="_blank">
-                <BookItem data={dataItem} />
-              </a>
+              <BookItem data={dataItem}>
+                <CustomButton
+                  handleClick={() => {
+                    setTShowModal(true);
+                    console.log(showModal);
+                  }}
+                  type={Theme.button.primary}
+                  content="Edit Book"
+                  classType="w-[100px]"
+                ></CustomButton>
+                <CustomButton
+                  handleClick={() => {
+                    setTShowModal(true);
+                    console.log(showModal);
+                  }}
+                  type={Theme.button.danger}
+                  content="Delete Book"
+                  classType="w-[100px]"
+                ></CustomButton>
+              </BookItem>
             ))
           ) : (
             <p>Data vide</p>

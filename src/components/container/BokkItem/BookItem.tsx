@@ -4,17 +4,21 @@ import { Row, Col } from "antd";
 import Heading from "../../common/Heading";
 
 import "./style.scss";
+import ButtonCustom from "../../common/CustomButton";
 interface bookProps {
   data: bookModel;
+  children: React.ReactNode;
 }
 
-const BookItem: FC<bookProps> = ({ data }) => {
+const BookItem: FC<bookProps> = ({ data, children }) => {
   return (
     <Row className="book-item__wrapper" gutter={2}>
       <Col>
-        <figure className="book-item__image">
-          <img src={`/src/assets/${data.imageLink}`} alt="image" />
-        </figure>
+        <a href={data.link} target="_blank">
+          <figure className="book-item__image">
+            <img src={`/src/assets/${data.imageLink}`} alt="image" />
+          </figure>
+        </a>
       </Col>
 
       <Col>
@@ -28,19 +32,9 @@ const BookItem: FC<bookProps> = ({ data }) => {
           </Col>
         </Row>
 
-        <Row
-          justify="space-between"
-          gutter={2}
-          className="book-item__btn-group"
-        >
-          <Col>
-            <span>Edit Book</span>
-          </Col>
-
-          <Col>
-            <span>Delete Book</span>
-          </Col>
-        </Row>
+        <div className="flex justify-between book-item__btn-group">
+          {children}
+        </div>
       </Col>
     </Row>
   );

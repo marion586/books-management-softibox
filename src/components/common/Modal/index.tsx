@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
 
+import "./style.scss";
+
 interface modalProps {
   children: React.ReactNode;
   isShowModal: boolean;
