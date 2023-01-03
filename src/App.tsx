@@ -55,7 +55,7 @@ const App = () => {
   const fetchData = async () => {
     try {
       const response = await getData("books.json", "json");
-      await setData(response);
+      setData(response);
     } catch (error) {
       console.error(error);
     }
@@ -64,8 +64,6 @@ const App = () => {
   };
 
   const setPagination = (page: number) => {
-    // page > 1 && setCurrent(PAGE_SIZE * page - PAGE_SIZE);
-    // setTotal((prev) => PAGE_SIZE * page);
     if (page > 1) {
       setCurrent(PAGE_SIZE * page - PAGE_SIZE);
       setTotal((prev) => PAGE_SIZE * page);
@@ -86,17 +84,15 @@ const App = () => {
   const onSearch = (value: string) => {
     if (value != "") {
       if (filtertype == "author") {
-        console.log(value);
         let author = data.filter((item: bookModel) =>
           item.author.toLocaleLowerCase().includes(value.toLocaleLowerCase())
         );
         setDataPagination(author);
       } else {
-        console.log(value);
         let gender = data.filter((item: bookModel) =>
           item.title.toLocaleLowerCase().includes(value.toLocaleLowerCase())
         );
-        console.log(gender);
+
         setDataPagination(gender);
       }
     } else {
@@ -179,15 +175,11 @@ const App = () => {
   return (
     <div className="book-content">
       <div className="flex justify-center gap-[20px] mb-[20px]">
-        <SearchAuto data={data} filterType={filtertype} />
-        {/* <Search
-          placeholder="Search Box"
-          size="middle"
-          onSearch={onSearch}
-          onChange={(event) => onSearch(event.target.value)}
-          enterButton
-          className="w-[300px]"
-        /> */}
+        <SearchAuto
+          data={data}
+          filterType={filtertype}
+          onSearch={(value) => onSearch(value)}
+        />
         <Modal
           isShowModal={showModal}
           handleOk={() => handleModalOk()}

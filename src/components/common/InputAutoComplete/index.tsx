@@ -8,38 +8,38 @@ interface optionType {
 interface propType {
   data: bookModel[];
   filterType: string;
+  onSearch: (data: string) => void;
 }
 
-const onSearch = (data: any) => {
-  console.log(data);
+const removeOptionsDuplicata = (optionsData: optionType[]) => {
+  let d = new Set([...optionsData.map((item: optionType) => item.value)]);
+  return [...d].map((d) => ({ value: d }));
 };
 
 const filterdata = (data: bookModel[], filter: string) => {
-  console.log(data, "data");
   let optionsData;
   if (filter == "author") {
     optionsData = [...data.map((item: bookModel) => ({ value: item.author }))];
-    console.log(optionsData);
-    return optionsData;
   } else {
     optionsData = [...data.map((item: bookModel) => ({ value: item.title }))];
-    return optionsData;
   }
+
+  return removeOptionsDuplicata(optionsData);
 };
 
-const App: React.FC<propType> = ({ data, filterType }) => {
+const App: React.FC<propType> = ({ data, filterType, onSearch }) => {
   const [options, setOptions] = useState<optionType[]>([]);
 
   useEffect(() => {
     setOptions(filterdata(data, filterType));
-    console.log(options);
-  }, []);
+  }, [data, filterType]);
 
   return (
     <AutoComplete
       style={{ width: 300 }}
       options={options}
       onSearch={onSearch}
+      onSelect={(value, option) => onSearch(value)}
       filterOption={(inputValue, option) =>
         option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
       }
