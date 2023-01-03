@@ -179,14 +179,14 @@ const App = () => {
     <div className="book-content">
       <div className="flex justify-center gap-[20px] mb-[20px]">
         <SearchAuto data={data} filterType={filtertype} />
-        <Search
+        {/* <Search
           placeholder="Search Box"
           size="middle"
           onSearch={onSearch}
           onChange={(event) => onSearch(event.target.value)}
           enterButton
           className="w-[300px]"
-        />
+        /> */}
         <Modal
           isShowModal={showModal}
           handleOk={() => handleModalOk()}

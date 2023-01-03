@@ -37,14 +37,14 @@ const App: React.FC<propType> = ({ data, filterType }) => {
 
   return (
     <AutoComplete
-      style={{ width: 200 }}
+      style={{ width: 300 }}
       options={options}
       onSearch={onSearch}
       filterOption={(inputValue, option) =>
         option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
       }
     >
-      <Input.Search size="large" placeholder="input here" enterButton />
+      <Input.Search size="middle" placeholder="Search box" enterButton />
     </AutoComplete>
   );
 };
