@@ -21,3 +21,15 @@
     @apply flex gap-[30px] mt-[50px];
   }
 }
+
+.ant-btn.css-dev-only-do-not-override-9ntgx0.ant-btn-primary {
+  background-color: #4096ff;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

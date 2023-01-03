@@ -21,7 +21,7 @@ let filterList: listType[] = [
   },
 ];
 const FilterCompenent: FC<propType> = ({ bookLeng, changeFilter }) => {
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState("author");
   return (
     <div className="list flex justify-between">
       <span className="font-bold">{bookLeng} Books</span>
