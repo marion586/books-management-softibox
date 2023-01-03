@@ -1,10 +1,15 @@
 .list {
   &__group {
     @apply flex gap-[20px];
+
     &-item {
       @apply px-3;
       font-size: 12px;
       cursor: pointer;
+      &:hover {
+        border: 1px solid rgb(224, 222, 222);
+        border-radius: 20px;
+      }
     }
     &-active {
       background-color: #4096ff;

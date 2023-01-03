@@ -11,7 +11,7 @@
 .pagination-content {
   display: flex;
   float: right;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -34,6 +34,9 @@ span {
 }
 button {
   font-size: 10px;
+}
+body {
+  box-sizing: border-box;
 }
 /* :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;

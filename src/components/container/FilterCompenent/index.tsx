@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import "./style.scss";
+import { AiOutlineUser, AiOutlineTablet } from "react-icons/ai";
 
 interface propType {
   bookLeng: number;
@@ -37,10 +38,15 @@ const FilterCompenent: FC<propType> = ({ bookLeng, changeFilter }) => {
 
                 setActive(item.value);
               }}
-              className={`list__group-item text-[grey] ${
+              className={`list__group-item flex items-center gap-[5px] text-[grey] ${
                 active == item.value && "list__group-active text-white"
               }`}
             >
+              {item.value === "author" ? (
+                <AiOutlineUser />
+              ) : (
+                <AiOutlineTablet />
+              )}{" "}
               {item.label}
             </li>
           ))}

@@ -1,5 +1,6 @@
 import React from "react";
 import { message, Popconfirm } from "antd";
+import "./style.scss";
 
 const cancel = (e: React.MouseEvent<HTMLElement> | undefined) => {};
 

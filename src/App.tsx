@@ -11,7 +11,8 @@ import Modal from "./components/common/Modal/index";
 import AddForm from "./components/container/AddForm";
 import PopConfirm from "./components/common/PopConfirm";
 import SearchAuto from "./components/common/InputAutoComplete";
-
+import { AiOutlinePlus, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import Empty from "./components/common/Empty";
 const { Search } = Input;
 
 const PAGE_SIZE = 5;
@@ -205,6 +206,7 @@ const App = () => {
           }}
           type={Theme.button.primary}
           content="Add Book"
+          icon={<AiOutlinePlus />}
           classType="w-[100px]"
         />
       </div>
@@ -219,7 +221,7 @@ const App = () => {
       {loading ? (
         <p>...Loading</p>
       ) : (
-        <div className="grid grid-cols-2 gap-[20px]">
+        <div className="grid  grid-cols-2 gap-[20px]">
           {dataPagination.length ? (
             dataPagination.map((dataItem: bookModel, id) => (
               <BookItem data={dataItem} key={dataItem.title}>
@@ -227,6 +229,7 @@ const App = () => {
                   handleClick={() => editModal(dataItem)}
                   type={Theme.button.primary}
                   content="Edit Book"
+                  icon={<AiOutlineEdit />}
                   classType="w-[100px]"
                 ></CustomButton>
                 <PopConfirm deleteItem={() => deleteItem(dataItem.title)}>
@@ -234,13 +237,16 @@ const App = () => {
                     handleClick={() => console.log(id)}
                     type={Theme.button.danger}
                     content="Delete Book"
+                    icon={<AiOutlineDelete fontSize={20} width={20} />}
                     classType="w-[100px]"
                   ></CustomButton>
                 </PopConfirm>
               </BookItem>
             ))
           ) : (
-            <p>Data vide</p>
+            <div className="flex  col-span-3 justify-center ">
+              <Empty />
+            </div>
           )}
         </div>
       )}
