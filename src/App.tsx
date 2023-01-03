@@ -11,6 +11,7 @@ import Modal from "./components/common/Modal/index";
 import AddForm from "./components/container/AddForm";
 import PopConfirm from "./components/common/PopConfirm";
 import SearchAuto from "./components/common/InputAutoComplete";
+import Spinner from "./components/common/Spinner";
 import { AiOutlinePlus, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import Empty from "./components/common/Empty";
 const { Search } = Input;
@@ -219,7 +220,9 @@ const App = () => {
       <Divider />
 
       {loading ? (
-        <p>...Loading</p>
+        <div className="flex   justify-center ">
+          <Spinner />
+        </div>
       ) : (
         <div className="grid  grid-cols-2 gap-[20px]">
           {dataPagination.length ? (
