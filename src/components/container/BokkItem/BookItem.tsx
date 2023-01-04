@@ -4,7 +4,6 @@ import { Row, Col } from "antd";
 import Heading from "../../common/Heading";
 
 import "./style.scss";
-import ButtonCustom from "../../common/CustomButton";
 interface bookProps {
   data: bookModel;
   children: React.ReactNode;

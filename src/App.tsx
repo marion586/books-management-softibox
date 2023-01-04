@@ -6,7 +6,7 @@ import FilterCompenent from "./components/container/FilterCompenent/index";
 import { Pagination, Divider } from "antd";
 import CustomButton from "./components/common/CustomButton";
 import { Theme } from "./Themes/books.theme";
-import { Input, message } from "antd";
+import { message } from "antd";
 import Modal from "./components/common/Modal/index";
 import AddForm from "./components/container/AddForm";
 import PopConfirm from "./components/common/PopConfirm";
@@ -14,9 +14,8 @@ import SearchAuto from "./components/common/InputAutoComplete";
 import Spinner from "./components/common/Spinner";
 import { AiOutlinePlus, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import Empty from "./components/common/Empty";
-const { Search } = Input;
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 4;
 
 const App = () => {
   const [data, setData] = useState<any>([]);
@@ -68,7 +67,6 @@ const App = () => {
   };
 
   const setPagination = (page: number) => {
-    console.log(page);
     let curr = 0;
     let t = 0;
     if (page > 1) {
@@ -83,11 +81,11 @@ const App = () => {
       setCurrent(curr);
       setTotal(t);
     }
-    console.log(curr, t);
+
     let tmp = data.filter(
       (item: bookModel, index: number) => index >= curr && index < t
     );
-    console.log(tmp);
+
     setDataPagination(tmp);
   };
 
@@ -265,7 +263,7 @@ const App = () => {
           className="pagination-content"
           total={data.length}
           showTotal={(total) => `Total ${total} items`}
-          pageSize={5}
+          pageSize={4}
           defaultCurrent={current}
           onChange={(page) => {
             setPagination(page);
