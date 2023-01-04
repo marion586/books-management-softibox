@@ -13,7 +13,7 @@ interface bookProps {
 const BookItem: FC<bookProps> = ({ data, children }) => {
   return (
     <Row className="book-item__wrapper" gutter={2}>
-      <Col>
+      <Col className="w-full lg:w-auto">
         <a href={data.link} target="_blank">
           <figure className="book-item__image">
             <img src={`/src/assets/${data.imageLink}`} alt="image" />
@@ -21,7 +21,7 @@ const BookItem: FC<bookProps> = ({ data, children }) => {
         </a>
       </Col>
 
-      <Col>
+      <Col className="flex flex-col items-center lg:items-start w-full lg:w-auto">
         <Heading title={data.title} level={5} />
         <span className="book-item__content">{data.author}</span>
 
@@ -34,7 +34,7 @@ const BookItem: FC<bookProps> = ({ data, children }) => {
           </Col>
         </Row>
 
-        <div className="flex gap-[10px] justify-center book-item__btn-group">
+        <div className="flex flex-wrap gap-[10px] justify-center book-item__btn-group">
           {children}
         </div>
       </Col>

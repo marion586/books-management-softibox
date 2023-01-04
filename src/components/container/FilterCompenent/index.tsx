@@ -24,11 +24,13 @@ let filterList: listType[] = [
 const FilterCompenent: FC<propType> = ({ bookLeng, changeFilter }) => {
   const [active, setActive] = useState("author");
   return (
-    <div className="list flex justify-between">
-      <span className="font-bold">{bookLeng} Books</span>
+    <div className="list  flex flex-wrap justify-between ">
+      <span className="font-bold text-[11px] text-center">
+        {bookLeng} Books
+      </span>
 
-      <div className="flex gap-[50px]">
-        <span>Sort By:</span>
+      <div className="flex justify-around ">
+        <span className="text-[10px] w-[80px]">Sort By:</span>
         <ul className="list__group">
           {filterList.map((item: listType) => (
             <li

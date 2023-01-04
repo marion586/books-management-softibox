@@ -188,7 +188,7 @@ const App = () => {
   };
   return (
     <div className="book-content">
-      <div className="flex justify-center gap-[20px] mb-[20px]">
+      <div className="flex flex-wrap justify-center gap-[20px] mb-[20px]">
         <SearchAuto
           data={data}
           filterType={filtertype}
@@ -214,7 +214,7 @@ const App = () => {
           type={Theme.button.primary}
           content="Add Book"
           icon={<AiOutlinePlus />}
-          classType="w-[100px]"
+          classType="w-[100px] "
         />
       </div>
 
@@ -230,7 +230,7 @@ const App = () => {
           <Spinner />
         </div>
       ) : (
-        <div className="grid  grid-cols-2 gap-[20px]">
+        <div className="grid grid-cols-1  sm:grid-cols-2  gap-[20px]">
           {dataPagination.length ? (
             dataPagination.map((dataItem: bookModel, id) => (
               <BookItem data={dataItem} key={dataItem.title}>
