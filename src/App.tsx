@@ -52,6 +52,10 @@ const App = () => {
     setTFiltertype((value) => value);
   }, [filtertype, data]);
 
+  useEffect(() => {
+    setCurrent((current) => current);
+    setTotal((total) => total);
+  }, [current, total]);
   const fetchData = async () => {
     try {
       const response = await getData("books.json", "json");
@@ -64,16 +68,26 @@ const App = () => {
   };
 
   const setPagination = (page: number) => {
+    console.log(page);
+    let curr = 0;
+    let t = 0;
     if (page > 1) {
-      setCurrent(PAGE_SIZE * page - PAGE_SIZE);
-      setTotal((prev) => PAGE_SIZE * page);
+      curr = PAGE_SIZE * page - PAGE_SIZE;
+
+      t = PAGE_SIZE * page;
+      setCurrent(curr);
+      setTotal(t);
     } else {
-      setCurrent(page);
-      setTotal(PAGE_SIZE);
+      curr = page - 1;
+      t = PAGE_SIZE;
+      setCurrent(curr);
+      setTotal(t);
     }
+    console.log(curr, t);
     let tmp = data.filter(
-      (item: bookModel, index: number) => index >= current && index < total
+      (item: bookModel, index: number) => index >= curr && index < t
     );
+    console.log(tmp);
     setDataPagination(tmp);
   };
 
